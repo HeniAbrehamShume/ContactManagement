@@ -18,27 +18,25 @@ namespace ContactM.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Contact>>> GetAll(int pageNumber, int pageSize)
         {
-            var contacts = await _contactService.GetAllAsync(pageNumber,pageSize);
+            var contacts = await _contactService.GetAllAsync(pageNumber, pageSize);
             return Ok(contacts);
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<Contact> GetByID(int id)
+        public async Task<ActionResult<Contact>> GetByID(int id) // Made async for consistency
         {
-            var contact =  _contactService.GetByIdAsync(id);
+            var contact = await _contactService.GetByIdAsync(id); // Added 'await' to correctly handle async call
             if (contact == null)
             {
                 return NotFound($"Contact with ID {id} not found.");
             }
             return Ok(contact);
         }
-       
-       
 
         [HttpPost]
         public async Task<ActionResult<Contact>> AddContact([FromBody] Contact newcontact)
         {
-            if (newcontact== null)
+            if (newcontact == null) // Fixed minor spacing for consistency
             {
                 return BadRequest("The contact data is empty. Retry!");
             }
@@ -46,7 +44,8 @@ namespace ContactM.Controllers
             return CreatedAtAction(nameof(GetByID), new { id = contact.Id }, contact);
         }
 
-        [HttpPut("{id}")]       public async Task<ActionResult<Contact>> UpdateContact(int id, [FromBody] Contact updatedContact)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Contact>> UpdateContact(int id, [FromBody] Contact updatedContact)
         {
             var updated = await _contactService.UpdateAsync(id, updatedContact);
             if (updated == null)

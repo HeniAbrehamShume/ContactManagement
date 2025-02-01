@@ -3,12 +3,13 @@ using ContactM.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Configure Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register ContactService for dependency injection
 builder.Services.AddScoped<IContactService, ContactService>();
 
 var app = builder.Build();
@@ -20,7 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+// Uncomment the following line to enforce HTTPS redirection
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
