@@ -26,7 +26,7 @@ namespace ContactM.Services
             return await _contactCollection.Find(p => p.Id == id).FirstOrDefaultAsync();
         }
        
-
+//add contact
         public async Task<Contact> AddAsync(Contact newcontact)
         {
             await _contactCollection.InsertOneAsync(newcontact);
@@ -34,11 +34,13 @@ namespace ContactM.Services
         }
 
 
+//update contact 
         public async Task<Contact> UpdateAsync(int id, Contact updatedContact)
         {
             await _contactCollection.ReplaceOneAsync(p => p.Id == id, updatedContact);
             return updatedContact;
         }
+        //delete contact
 
         public async Task<bool> DeleteAsync(int id)
         {
